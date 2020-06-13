@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cypis.Data.Migrations
+namespace Covalition.Cypis.Persistence.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

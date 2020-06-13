@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "@primer/css@14.4.0",
+      "destination": "wwwroot/lib/primer",
+      "files": [
+        "dist/base.css"
+      ]
+    }
+  ]
+}

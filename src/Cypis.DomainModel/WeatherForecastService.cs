@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cypis.Data
+namespace Covalition.Cypis.DomainModel
 {
     public class WeatherForecastService
     {
@@ -13,7 +13,7 @@ namespace Cypis.Data
 
         public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate) {
             var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast {
+            return System.Threading.Tasks.Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast {
                 Date = startDate.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]

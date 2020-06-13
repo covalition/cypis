@@ -1,0 +1,42 @@
+﻿@page "/Tasks"
+
+@using Covalition.Cypis.ViewModels.Tasks
+@using Covalition.Cypis.Services
+
+@inject ITaskService taskService
+
+<h3>Task Index</h3>
+
+@if (tasks == null) {
+    <p><em>Loading...</em></p>
+}
+else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in tasks) {
+                <tr>
+                    <td>@task.Id</td>
+                    <td>@task.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Item> tasks;
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync() {
+        tasks = (await taskService.GetTaskListAsync())
+            .Select(t => new Item {
+                Id = t.Id,
+                Title = t.Title
+            });
+    }
+}

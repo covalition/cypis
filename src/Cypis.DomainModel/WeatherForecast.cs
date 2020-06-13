@@ -1,6 +1,6 @@
 using System;
 
-namespace Cypis.Data
+namespace Covalition.Cypis.DomainModel
 {
     public class WeatherForecast
     {
