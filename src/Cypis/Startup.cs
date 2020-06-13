@@ -41,6 +41,8 @@ namespace Covalition.Cypis
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<ITaskService, TaskService>();
+
+            services.AddSingleton<ICurrentUserProvider, CurrentUserProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

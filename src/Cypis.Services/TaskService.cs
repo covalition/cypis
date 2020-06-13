@@ -13,29 +13,25 @@ namespace Covalition.Cypis.Services
     {
         Task<List<DomainModel.Task>> GetTasksAsync();
         Task<List<TaskListItem>> GetTaskListAsync();
-        int AddTask(string title);
-        Objects.TaskListItem GetTask(int id);
+        Task<int> AddTask(string title);
+        Task<DomainModel.Task> GetTask(int id);
     }
 
     public class TaskService : BaseService, ITaskService
     {
         public TaskService(ApplicationDbContext dbContext) : base(dbContext) { }
 
-        public int AddTask(string title) {
+        public async Task<int> AddTask(string title) {
             DomainModel.Task newTask = new DomainModel.Task {
                 Title = title
             };
             DbContext.Tasks.Add(newTask);
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
             return newTask.Id;
         }
 
-        public Objects.TaskListItem GetTask(int id) {
-            DomainModel.Task task = DbContext.Tasks.Find(id);
-            if (task != null)
-                return new Objects.TaskListItem { Title = task.Title };
-            else
-                return null;
+        public async Task<DomainModel.Task> GetTask(int id) {
+            return await DbContext.Tasks.FindAsync(id);
         }
 
         public Task<List<TaskListItem>> GetTaskListAsync() {

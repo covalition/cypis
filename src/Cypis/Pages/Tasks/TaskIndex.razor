@@ -4,6 +4,7 @@
 @using Covalition.Cypis.Services
 
 @inject ITaskService taskService
+@inject NavigationManager navigationManager
 
 <h3>Task Index</h3>
 
@@ -29,14 +30,22 @@ else {
     </table>
 }
 
+<button class="btn btn-primary" @onclick="NavigateToCreateTask">
+    New Task
+</button>
+
 @code {
-    private IEnumerable<Item> tasks;
+    private IEnumerable<ItemModel> tasks;
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync() {
         tasks = (await taskService.GetTaskListAsync())
-            .Select(t => new Item {
+            .Select(t => new ItemModel {
                 Id = t.Id,
                 Title = t.Title
             });
+    }
+
+    private void NavigateToCreateTask() {
+        navigationManager.NavigateTo("/Tasks/Create");
     }
 }

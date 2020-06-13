@@ -1,0 +1,32 @@
+﻿@page "/Tasks/Edit/{Id:int}"
+
+@using Covalition.Cypis.ViewModels.Tasks
+
+@inject ITaskService taskService
+
+<h3>EditTask</h3>
+
+@if (model == null) {
+    <p><em>Loading...</em></p>
+}
+else {
+    @:Task Id: @model.Id <br/>
+    @:Task Title: @model.Title <br />
+}
+
+    @code {
+
+        [Parameter]
+        public int Id { get; set; }
+
+        private EditModel model;
+
+        protected override async System.Threading.Tasks.Task OnInitializedAsync() {
+            DomainModel.Task task = await taskService.GetTask(Id);
+            model = new EditModel { 
+                Id = task.Id,
+                Title = task.Title
+            };
+        }
+
+}

@@ -1,0 +1,61 @@
+﻿@page "/Tasks/Create"
+
+@using Covalition.Cypis.ViewModels.Tasks
+
+@inject ITaskService taskService
+@inject NavigationManager navigationManager
+
+<h3>CreateTask</h3>
+
+@errorMessage
+
+<EditForm Model="@createViewModel" OnSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        <label>
+            Task Title:
+            <InputText id="name" @bind-Value="createViewModel.Title" />
+        </label>
+    </p>
+
+
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private CreateModel createViewModel = new CreateModel();
+    private EditContext editContext;
+    private string errorMessage;
+
+    protected override void OnInitialized() {
+        editContext = new EditContext(createViewModel);
+    }
+
+    private async System.Threading.Tasks.Task HandleSubmit() {
+        try {
+            var isValid = editContext.Validate() &&
+                await ServerValidate(editContext);
+
+            if (isValid) {
+                int taskId = await taskService.AddTask(createViewModel.Title);
+                navigationManager.NavigateTo($"/Tasks/Edit/{taskId}");
+            }
+            else {
+                //
+            }
+        }
+        catch(Exception ex) {
+            errorMessage = ex.Message;
+        }
+    }
+
+    private async Task<bool> ServerValidate(EditContext editContext) {
+        //var serverChecksValid = ...
+
+        //return serverChecksValid;
+        return true;
+    }
+}
