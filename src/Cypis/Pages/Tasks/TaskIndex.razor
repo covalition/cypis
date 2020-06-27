@@ -6,38 +6,69 @@
 @inject ITaskService taskService
 @inject NavigationManager navigationManager
 
-<h3>Task Index</h3>
+<div class="d-flex flex-justify-between mb-md-3 flex-column-reverse flex-md-row flex-items-end">
+    <div class="d-flex flex-justify-start flex-auto width-full my-4 my-md-0" role="search">
+        <div class="ml-2 pl-2 d-none d-md-flex">
+        </div>
+    </div>
+    <div class="ml-3 d-flex flex-justify-between width-full width-md-auto" data-pjax="">
+        <a href="/Tasks/Create" class="btn btn-primary" role="button" data-hotkey="c" data-skip-pjax="">
+            <span class="d-none d-md-block">New task</span>
+        </a>
+    </div>
+</div>
 
-@if (tasks == null) {
+@if (tasks == null)
+{
     <p><em>Loading...</em></p>
 }
-else {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var task in tasks) {
-                <tr>
-                    <td>@task.Id</td>
-                    <td>@task.Title</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+else
+{
+    <div class="Box mt-3">
+        <div class="Box-header d-flex flex-justify-between">
+            <div class="mr-3 d-none d-md-block">
+                <input type="checkbox" data-check-all="" aria-label="Select all tasks" autocomplete="off">
+            </div>
+            <div class="flex-auto d-flex min-width-0">
+                Filters
+            </div>
+        </div>
+        <div role="group">
+            <div>
+                @foreach (var task in tasks)
+                {
+
+                    <div class="Box-row Box-row--focus-gray p-0 mt-0">
+                        <div class="d-flex Box-row--drag-hide position-relative">
+                            <label class="flex-shrink-0 py-2 pl-3 d-none d-md-block">
+                                <input type="checkbox" data-check-all-item="" autocomplete="off">
+                            </label>
+                            <div class="flex-auto min-width-0 lh-condensed p-2 pr-3 pr-md-2">
+                                <a iclass="v-align-middle h4" style="color: #24292e !important; text-decoration: none!important; font-weight: 600!important;" href="/Tasks/Edit/@task.Id">@task.Title</a>
+                                <div class="mt-1 text-small text-gray">
+                                    <span class="opened-by">
+                                        #@task.Id
+                                        opened <relative-time datetime="2020-06-13T12:31:12Z" class="no-wrap" title="13 cze 2020, 14:31 CEST">14 days ago</relative-time> by
+                                        <a class="muted-link" title="Open issues created by romanoza" data-hovercard-type="user" data-hovercard-url="/users/romanoza/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="#">romanoza</a>
+                                    </span>
+                                    <span class="d-none d-md-inline">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 }
 
-<button class="btn btn-primary" @onclick="NavigateToCreateTask">
-    New Task
-</button>
-
 @code {
+
     private IEnumerable<ItemModel> tasks;
 
-    protected override async System.Threading.Tasks.Task OnInitializedAsync() {
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
         tasks = (await taskService.GetTaskListAsync())
             .Select(t => new ItemModel {
                 Id = t.Id,
@@ -45,7 +76,4 @@ else {
             });
     }
 
-    private void NavigateToCreateTask() {
-        navigationManager.NavigateTo("/Tasks/Create");
-    }
 }

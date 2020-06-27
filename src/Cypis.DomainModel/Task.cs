@@ -8,9 +8,15 @@ namespace Covalition.Cypis.DomainModel
     [Table("Tasks")]
     public class Task: AuditableEntity
     {
-        public string Title { get; set;  }
+        protected Task() { }
 
-        public double? EstimateOptymistic { get; set; } 
+        public Task(string title) {
+            Title = title;
+        }
+
+        public string Title { get; private set;  }
+
+        public double? EstimateOptymistic { get; set; }  // todo - internals
 
         public double? EstimatePessimistic { get; set; } 
 

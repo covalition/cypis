@@ -32,12 +32,14 @@ namespace Covalition.Cypis.Persistence
                     AuditableEntity auditableEntity = (AuditableEntity)entity.Entity;
                     DateTime time = DateTime.Now;
                     if (entity.State == EntityState.Added) {
-                        auditableEntity.Created = time;
-                        auditableEntity.CreatedBy = currentUser;
+                        //auditableEntity.Created = time;
+                        //auditableEntity.CreatedBy = currentUser;
+                        auditableEntity.SetAuditFieldsOnCreate(time, currentUser);
                     }
                     // dodany i zmodyfikowany
-                    auditableEntity.Modified = time;
-                    auditableEntity.ModifiedBy = currentUser;
+                    //auditableEntity.Modified = time;
+                    //auditableEntity.ModifiedBy = currentUser;
+                    auditableEntity.SetAuditFieldsOnModify(time, currentUser);
                 }
             }
 
@@ -75,7 +77,7 @@ namespace Covalition.Cypis.Persistence
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
-            builder.Entity<DomainModel.Task>()
+            builder.Entity<DomainModel.Task>() // TODO: sprawdzić Auditable
                 .HasOne(t => t.CreatedBy)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);

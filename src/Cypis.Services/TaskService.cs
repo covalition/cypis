@@ -22,9 +22,7 @@ namespace Covalition.Cypis.Services
         public TaskService(ApplicationDbContext dbContext) : base(dbContext) { }
 
         public async Task<int> AddTask(string title) {
-            DomainModel.Task newTask = new DomainModel.Task {
-                Title = title
-            };
+            DomainModel.Task newTask = new DomainModel.Task(title);
             DbContext.Tasks.Add(newTask);
             await DbContext.SaveChangesAsync();
             return newTask.Id;
